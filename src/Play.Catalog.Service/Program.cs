@@ -20,11 +20,11 @@ IConfiguration configuration = builder.Configuration;
 serviceSettings = configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
 // Init Mongo Instance for Items
-// Start the RabbitMQ Service
+// Start the service bus Service
 builder.Services
     .AddMongo()
     .AddMongoRepository<Item>("items")
-    .AddMassTransitWithRabbitMq()
+    .AddMassTransitWithMessageBroker(configuration)
     .AddJwtBearerAuthentication();
 
 // If you wan to read/write the Catalog Service
