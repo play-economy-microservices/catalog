@@ -3,6 +3,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Play.Catalog.Service;
 using Play.Catalog.Service.Entities;
+using Play.Common.HealthChecks;
 using Play.Common.Identity;
 using Play.Common.MassTransit;
 using Play.Common.MongoDB;
@@ -54,6 +55,11 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Health Checks
+builder.Services
+    .AddHealthChecks()
+    .AddMongoDB();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -61,6 +67,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    // Map endpoints to Healthchecks
+    app.UseEndpoints(endpoints => endpoints.MapPlayEconomyHealthChecks());
 
     // Cors Middleware
     app.UseCors(builder =>
