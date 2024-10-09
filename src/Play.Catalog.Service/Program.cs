@@ -3,6 +3,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Play.Catalog.Service;
 using Play.Catalog.Service.Entities;
+using Play.Common.Configuration;
 using Play.Common.HealthChecks;
 using Play.Common.Identity;
 using Play.Common.MassTransit;
@@ -12,6 +13,9 @@ using Play.Common.Settings;
 ServiceSettings serviceSettings;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Azure Keyvault to obtain secrets
+builder.Host.ConfigureAzureKeyVault();
 
 const string AllowedOriginSetting = "AllowedOrigin";
 
