@@ -1,6 +1,3 @@
-using System.Net;
-using MassTransit;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Play.Catalog.Service;
 using Play.Catalog.Service.Entities;
 using Play.Common.Configuration;
@@ -32,7 +29,7 @@ builder.Services
     .AddMassTransitWithMessageBroker(configuration)
     .AddJwtBearerAuthentication();
 
-// If you wan to read/write the Catalog Service
+// If you want to read/write the Catalog Service, 
 // you must be an admin role along with the respective claims.
 builder.Services.AddAuthorization(options =>
 {
@@ -51,11 +48,10 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddControllers(options =>
 {
-    // Avoid ASP.NET Core Removing Async Suffix at Runtime
     options.SuppressAsyncSuffixInActionNames = false;
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger/OpenAPI setup
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -71,29 +67,28 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    
-    // Map endpoints to Healthchecks
-    app.UseEndpoints(endpoints => endpoints.MapPlayEconomyHealthChecks());
 
-    // Cors Middleware
     app.UseCors(builder =>
     {
-        // use configuration[index<string>] object b/c the object c
-        // ontains all the data from the appsettings automatically
-        // by the ASP.NET Core runtime.
         builder
-        .WithOrigins(configuration[AllowedOriginSetting])
-        .AllowAnyHeader()
-        .AllowAnyMethod();
+            .WithOrigins(configuration[AllowedOriginSetting])
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 }
 
-app.UseHttpsRedirection();
+app.UseHttpsRedirection(); 
+
+// Set up endpoint routing
+app.UseRouting();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapPlayEconomyHealthChecks();
+});
 
 app.Run();

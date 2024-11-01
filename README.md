@@ -39,6 +39,13 @@ az acr login --name $appname
 docker push "$appname.azurecr.io/play.catalog:$version"
 ```
 
+## Create the Kubernetes Namespace
+```powershell
+$namespace="catalog"
+
+kubectl create namespace $namespace
+```
+
 ## Creating the Azure Managed Identity and granting it access to the Key Vault
 
 ```powershell
@@ -49,6 +56,13 @@ az identity create --resource-group $appname --name $namespace
 
 $IDENTITY_CLIENT_ID=az identity show -g $appname -n $namespace --query clientId -otsv
 az keyvault set-policy -n $appname --secret-permissions get list --spn $IDENTITY_CLIENT_ID
+```
+
+## Create the Kubernetes Pod
+```powershell
+$namespace="catalog"
+
+kubectl apply -f ./kubernetes/catalog.yaml -n $namespace
 ```
 
 ## Establish the federated identity credential

@@ -34,7 +34,7 @@ public class ItemsController : ControllerBase
 	}
 
 	[HttpGet]
-	[Authorize(Policies.Read)]
+	// [Authorize(Policies.Read)] temp
 	public async Task<ActionResult<IEnumerable<ItemDto>>> GetAsync()
 	{
 		var items = (await itemsRepository.GetAllAsync())
@@ -44,7 +44,7 @@ public class ItemsController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
-	[Authorize(Policies.Read)]
+	// [Authorize(Policies.Read)] temp
 	public async Task<ActionResult<ItemDto>> GetByIdAsync(Guid id)
 	{
 		var item = await itemsRepository.GetAsync(id);
@@ -58,7 +58,7 @@ public class ItemsController : ControllerBase
 	}
 
 	[HttpPost]
-	[Authorize(Policies.Write)]
+	// temp [Authorize(Policies.Write)]
 	public async Task<ActionResult<ItemDto>> PostAsync(CreateItemDto createItemDto)
 	{
 		var item = new Item
@@ -81,7 +81,7 @@ public class ItemsController : ControllerBase
 	}
 
 	[HttpPut("{id}")]
-    [Authorize(Policies.Write)]
+    // [Authorize(Policies.Write)] temp
     public async Task<IActionResult> PutAsync(Guid id, UpdateItemDto updateItemDto)
 	{
 		var existingItem = await itemsRepository.GetAsync(id);
@@ -107,7 +107,7 @@ public class ItemsController : ControllerBase
 	}
 
 	[HttpDelete("{id}")]
-    [Authorize(Policies.Write)]
+    // [Authorize(Policies.Write)] temp
     public async Task<IActionResult> DeleteAsync(Guid id)
 	{
 		var item = await itemsRepository.GetAsync(id);
