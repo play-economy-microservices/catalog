@@ -1,16 +1,13 @@
-﻿using System;
+using Play.Catalog.Service.Dtos;
 using Play.Catalog.Service.Entities;
-using static Play.Catalog.Service.Dtos;
 
-namespace Play.Catalog.Service;
-
-/// <summary>
-/// This class will help you convert your Entities to DTOs.
-/// </summary>
-public static class Extensions
+namespace Play.Catalog.Service
 {
-	public static ItemDto AsDto(this Item item)
-	{
-		return new ItemDto(item.Id, item.Name, item.Description, item.Price, item.CreatedAt);
+    public static class Extensions
+    {
+        public static ItemDto AsDto(this Item item)
+        {
+            return new ItemDto(item.Id, item.Name, item.Description, item.Price, item.CreatedDate);
+        }
     }
 }

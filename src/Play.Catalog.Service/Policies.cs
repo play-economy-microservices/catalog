@@ -1,7 +1,11 @@
-﻿namespace Play.Catalog.Service;
-
-public static class Policies
+namespace Play.Catalog.Service
 {
-	public const string Read = "read_access";
-	public const string Write = "write_access";
+    /// <summary>
+    /// Mapped policies - ensure to configure these on Startup.cs
+    /// </summary>
+    public static class Policies
+    {
+        public const string Read = "read_access";
+        public const string Write = "write_access";
+    }
 }

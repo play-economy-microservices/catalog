@@ -15,7 +15,7 @@ spec:
       serviceAccountName: catalog-serviceaccount
       containers:
         - name: catalog
-          image: playeconomyacr.azurecr.io/play.catalog:1.0.3
+          image: playeconomyacr.azurecr.io/play.catalog:1.0.4
           securityContext: # temp
             runAsUser: 0
             privileged: true
@@ -34,7 +34,16 @@ spec:
               cpu: "150m"
           ports:
             - containerPort: 5000
-          # Health Probes if needed...
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 5000
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 5000
+            initialDelaySeconds: 10
 
 ---
 apiVersion: v1
