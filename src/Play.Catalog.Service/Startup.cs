@@ -5,6 +5,7 @@ using Play.Common.Identity;
 using Play.Common.Logging;
 using Play.Common.MassTransit;
 using Play.Common.MongoDB;
+using Play.Common.OpenTelemetry;
 using Play.Common.Settings;
 
 namespace Play.Catalog.Service
@@ -66,7 +67,8 @@ namespace Play.Catalog.Service
                     .AddMongoDb(); // MongoDB HealthCheck
             
             // Seq Logging
-            services.AddSeqLogging(Configuration);
+            services.AddSeqLogging(Configuration)
+                    .AddTracing(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
