@@ -1,6 +1,4 @@
-# play.catalog
-
-Play Economy Catalog microservice
+# Catalog
 
 ## Add the GitHub package source
 
